@@ -40,9 +40,8 @@
 
 
     /* =========================================
-       INPUT POPUP
+       INPUT MODE
        ========================================= */
-
 
     #inputMode {
 
@@ -57,12 +56,18 @@
     }
 
 
+    /* =========================================
+       POPUP
+       ========================================= */
+
     .popup {
+
+        position: relative;
 
         width: 95%;
         max-width: 520px;
 
-        padding: 28px 32px 24px;
+        padding: 32px 32px 26px;
 
         text-align: center;
 
@@ -98,38 +103,71 @@
     }
 
 
-    .popup.hide {
+    /* =========================================
+       CLOSE BUTTON
+       ========================================= */
 
-        animation:
-            popupOut 0.35s ease forwards;
+    #closeButton {
+
+        position: absolute;
+
+        top: 10px;
+        right: 12px;
+
+        width: 32px;
+        height: 32px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 0;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 22px;
+        font-weight: bold;
+
+        line-height: 1;
+
+        color: white;
+
+        background: #4ca3ef;
+
+        border: none;
+
+        border-radius: 50%;
+
+        cursor: pointer;
+
+        transition:
+            transform 0.15s ease,
+            background 0.15s ease;
 
     }
 
 
-    @keyframes popupOut {
+    #closeButton:hover {
 
-        from {
+        transform: scale(1.08);
 
-            opacity: 1;
+        background: #ffc928;
 
-            transform: scale(1);
-
-        }
-
-        to {
-
-            opacity: 0;
-
-            transform: scale(0.85);
-
-        }
+        color: #123e69;
 
     }
 
+
+    /* =========================================
+       TITLE
+       ========================================= */
 
     .popup-title {
 
         margin-bottom: 18px;
+
+        padding: 0 20px;
 
         color: white;
 
@@ -139,6 +177,10 @@
 
     }
 
+
+    /* =========================================
+       NAME INPUT
+       ========================================= */
 
     #nameInput {
 
@@ -185,11 +227,15 @@
     }
 
 
-    #saveButton {
+    /* =========================================
+       CONTINUE BUTTON
+       ========================================= */
+
+    #continueButton {
 
         margin-top: 17px;
 
-        padding: 11px 32px;
+        padding: 11px 36px;
 
         font-family: "Jockey One", sans-serif;
 
@@ -206,17 +252,24 @@
         cursor: pointer;
 
         transition:
-            transform 0.15s ease;
+            transform 0.15s ease,
+            background 0.15s ease;
 
     }
 
 
-    #saveButton:hover {
+    #continueButton:hover {
 
         transform: scale(1.05);
 
+        background: #ffc928;
+
     }
 
+
+    /* =========================================
+       MESSAGE
+       ========================================= */
 
     #message {
 
@@ -231,11 +284,42 @@
     }
 
 
-
     /* =========================================
-       FINAL NAME DISPLAY
+       POPUP EXIT ANIMATION
        ========================================= */
 
+    .popup.hide {
+
+        animation:
+            popupOut 0.35s ease forwards;
+
+    }
+
+
+    @keyframes popupOut {
+
+        from {
+
+            opacity: 1;
+
+            transform: scale(1);
+
+        }
+
+        to {
+
+            opacity: 0;
+
+            transform: scale(0.85);
+
+        }
+
+    }
+
+
+    /* =========================================
+       FINAL DISPLAY MODE
+       ========================================= */
 
     #displayMode {
 
@@ -270,10 +354,9 @@
 <body>
 
 
-<!-- ========================================
+<!-- =========================================
      INPUT POPUP
-     ======================================== -->
-
+     ========================================= -->
 
 <div id="inputMode">
 
@@ -282,12 +365,28 @@
         id="popup"
     >
 
+
+        <!-- CLOSE BUTTON -->
+
+        <button
+            id="closeButton"
+            aria-label="Tutup"
+        >
+            ×
+        </button>
+
+
+        <!-- TITLE -->
+
         <div class="popup-title">
 
-            SILA MASUKKAN NAMA ANDA
+            SILA MASUKKAN<br>
+            NAMA ANDA
 
         </div>
 
+
+        <!-- NAME -->
 
         <input
             id="nameInput"
@@ -298,12 +397,18 @@
         >
 
 
-        <button id="saveButton">
+        <!-- CONTINUE -->
 
-            REKOD NAMA
+        <button
+            id="continueButton"
+        >
+
+            TERUSKAN
 
         </button>
 
+
+        <!-- MESSAGE -->
 
         <div id="message"></div>
 
@@ -314,10 +419,9 @@
 
 
 
-<!-- ========================================
-     FINAL NAME
-     ======================================== -->
-
+<!-- =========================================
+     FINAL NAME DISPLAY
+     ========================================= -->
 
 <div id="displayMode">
 
@@ -328,6 +432,11 @@
 
 
 <script>
+
+
+/* =========================================
+   READ MODE
+   ========================================= */
 
 const parameters =
     new URLSearchParams(
@@ -340,10 +449,9 @@ const mode =
 
 
 
-/* ==========================================
+/* =========================================
    INPUT MODE
-   ========================================== */
-
+   ========================================= */
 
 if (mode === "input") {
 
@@ -366,9 +474,15 @@ if (mode === "input") {
         );
 
 
-    const button =
+    const continueButton =
         document.getElementById(
-            "saveButton"
+            "continueButton"
+        );
+
+
+    const closeButton =
+        document.getElementById(
+            "closeButton"
         );
 
 
@@ -378,29 +492,51 @@ if (mode === "input") {
         );
 
 
+    /*
+     * Show popup.
+     */
+
     inputMode.style.display =
         "flex";
 
 
     /*
-     * If a name already exists,
-     * place it in the input box.
+     * IMPORTANT:
+     *
+     * Remove the previous player's name.
+     *
+     * Every time a new player reaches
+     * this page, they start with a
+     * completely empty name field.
      */
 
-    const existingName =
-        localStorage.getItem(
-            "playerName"
-        );
+    localStorage.removeItem(
+        "playerName"
+    );
 
 
-    if (existingName) {
-
-        input.value =
-            existingName;
-
-    }
+    input.value = "";
 
 
+    /*
+     * Automatically put the cursor
+     * into the name box.
+     */
+
+    setTimeout(
+        function () {
+
+            input.focus();
+
+        },
+        400
+    );
+
+
+
+    /* =====================================
+       SAVE NAME
+       ===================================== */
 
     function saveName() {
 
@@ -410,7 +546,7 @@ if (mode === "input") {
 
 
         /*
-         * Prevent blank names.
+         * Don't allow an empty name.
          */
 
         if (playerName === "") {
@@ -426,7 +562,7 @@ if (mode === "input") {
 
 
         /*
-         * Save name.
+         * Save the new player's name.
          */
 
         localStorage.setItem(
@@ -436,7 +572,7 @@ if (mode === "input") {
 
 
         /*
-         * Confirmation.
+         * Show confirmation.
          */
 
         message.textContent =
@@ -444,8 +580,17 @@ if (mode === "input") {
 
 
         /*
-         * Wait briefly so player can
-         * see the confirmation.
+         * Temporarily disable
+         * the button.
+         */
+
+        continueButton.disabled =
+            true;
+
+
+        /*
+         * Wait briefly so the player
+         * sees the confirmation.
          */
 
         setTimeout(
@@ -453,7 +598,7 @@ if (mode === "input") {
 
 
                 /*
-                 * Play closing animation.
+                 * Start popup exit animation.
                  */
 
                 popup.classList.add(
@@ -462,8 +607,8 @@ if (mode === "input") {
 
 
                 /*
-                 * After animation finishes,
-                 * remove popup completely.
+                 * Remove popup after
+                 * animation finishes.
                  */
 
                 setTimeout(
@@ -485,20 +630,20 @@ if (mode === "input") {
 
 
 
-    /*
-     * Button click.
-     */
+    /* =====================================
+       CONTINUE BUTTON
+       ===================================== */
 
-    button.addEventListener(
+    continueButton.addEventListener(
         "click",
         saveName
     );
 
 
 
-    /*
-     * Enter key.
-     */
+    /* =====================================
+       ENTER KEY
+       ===================================== */
 
     input.addEventListener(
         "keydown",
@@ -516,14 +661,55 @@ if (mode === "input") {
     );
 
 
+
+    /* =====================================
+       CLOSE BUTTON
+       ===================================== */
+
+    closeButton.addEventListener(
+        "click",
+        function () {
+
+
+            /*
+             * Closing without saving
+             * means there is no valid
+             * player name.
+             */
+
+            localStorage.removeItem(
+                "playerName"
+            );
+
+
+            /*
+             * Hide popup.
+             */
+
+            popup.classList.add(
+                "hide"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    inputMode.style.display =
+                        "none";
+
+                },
+                350
+            );
+
+        }
+    );
+
 }
 
 
-
-/* ==========================================
+/* =========================================
    DISPLAY MODE
-   ========================================== */
-
+   ========================================= */
 
 if (mode === "display") {
 
