@@ -104,62 +104,6 @@
 
 
     /* =========================================
-       CLOSE BUTTON
-       ========================================= */
-
-    #closeButton {
-
-        position: absolute;
-
-        top: 10px;
-        right: 12px;
-
-        width: 32px;
-        height: 32px;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        padding: 0;
-
-        font-family: Arial, sans-serif;
-
-        font-size: 22px;
-        font-weight: bold;
-
-        line-height: 1;
-
-        color: white;
-
-        background: #4ca3ef;
-
-        border: none;
-
-        border-radius: 50%;
-
-        cursor: pointer;
-
-        transition:
-            transform 0.15s ease,
-            background 0.15s ease;
-
-    }
-
-
-    #closeButton:hover {
-
-        transform: scale(1.08);
-
-        background: #ffc928;
-
-        color: #123e69;
-
-    }
-
-
-    /* =========================================
        TITLE
        ========================================= */
 
@@ -366,16 +310,6 @@
     >
 
 
-        <!-- CLOSE BUTTON -->
-
-        <button
-            id="closeButton"
-            aria-label="Tutup"
-        >
-            ×
-        </button>
-
-
         <!-- TITLE -->
 
         <div class="popup-title">
@@ -477,12 +411,6 @@ if (mode === "input") {
     const continueButton =
         document.getElementById(
             "continueButton"
-        );
-
-
-    const closeButton =
-        document.getElementById(
-            "closeButton"
         );
 
 
@@ -661,48 +589,6 @@ if (mode === "input") {
     );
 
 
-
-    /* =====================================
-       CLOSE BUTTON
-       ===================================== */
-
-    closeButton.addEventListener(
-        "click",
-        function () {
-
-
-            /*
-             * Closing without saving
-             * means there is no valid
-             * player name.
-             */
-
-            localStorage.removeItem(
-                "playerName"
-            );
-
-
-            /*
-             * Hide popup.
-             */
-
-            popup.classList.add(
-                "hide"
-            );
-
-
-            setTimeout(
-                function () {
-
-                    inputMode.style.display =
-                        "none";
-
-                },
-                350
-            );
-
-        }
-    );
 
 }
 
