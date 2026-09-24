@@ -342,15 +342,20 @@
 
     #displayName {
 
-        color: white;
+        color: #ffc72c;
 
         font-family: "Jockey One", sans-serif;
 
-        font-size: 42px;
+        font-size: 22px;
 
-        line-height: 1.1;
+        line-height: 1;
 
-        word-break: break-word;
+        text-align: center;
+
+        white-space: nowrap;
+
+        text-shadow:
+            2px 2px 2px rgba(0, 0, 0, 0.35);
 
     }
 
@@ -690,6 +695,49 @@ if (mode === "display") {
 
         display.textContent =
             playerName;
+
+
+        /*
+         * Keep the normal name size at 22px,
+         * but shrink longer names until they fit.
+         */
+
+        function fitNameToSpace() {
+
+            const maximumSize = 22;
+            const minimumSize = 14;
+
+            let currentSize = maximumSize;
+
+            display.style.fontSize =
+                currentSize + "px";
+
+
+            while (
+                display.scrollWidth >
+                    display.clientWidth &&
+                currentSize >
+                    minimumSize
+            ) {
+
+                currentSize--;
+
+                display.style.fontSize =
+                    currentSize + "px";
+
+            }
+
+        }
+
+
+        requestAnimationFrame(
+            fitNameToSpace
+        );
+
+        window.addEventListener(
+            "resize",
+            fitNameToSpace
+        );
 
     }
 
