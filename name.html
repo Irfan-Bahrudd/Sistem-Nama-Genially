@@ -47,11 +47,73 @@
 
         display: none;
 
+        position: relative;
+
         width: 100%;
         height: 100%;
 
         align-items: center;
         justify-content: center;
+
+        overflow: hidden;
+
+    }
+
+
+    /* =========================================
+       DARK BACKDROP
+       ========================================= */
+
+    #inputMode::before {
+
+        content: "";
+
+        position: absolute;
+
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.24);
+
+        opacity: 0;
+
+        animation: backdropIn 0.35s ease forwards;
+
+        z-index: 0;
+
+    }
+
+
+    #inputMode.closing::before {
+
+        animation: backdropOut 0.35s ease forwards;
+
+    }
+
+
+    @keyframes backdropIn {
+
+        to {
+
+            opacity: 1;
+
+        }
+
+    }
+
+
+    @keyframes backdropOut {
+
+        from {
+
+            opacity: 1;
+
+        }
+
+        to {
+
+            opacity: 0;
+
+        }
 
     }
 
@@ -63,6 +125,8 @@
     .popup {
 
         position: relative;
+
+        z-index: 1;
 
         width: 95%;
         max-width: 520px;
@@ -528,6 +592,10 @@ if (mode === "input") {
                 /*
                  * Start popup exit animation.
                  */
+
+                inputMode.classList.add(
+                    "closing"
+                );
 
                 popup.classList.add(
                     "hide"
