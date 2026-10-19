@@ -72,7 +72,7 @@
 
         inset: 0;
 
-        background: rgba(0, 0, 0, 0.40);
+        background: rgba(0, 0, 0, 0.18);
 
         opacity: 0;
 
@@ -123,36 +123,48 @@
        ========================================= */
 
     .popup {
-
         position: relative;
-
         z-index: 1;
-
         width: 95%;
         max-width: 520px;
-
         padding: 32px 32px 26px;
-
         text-align: center;
-
-        background: #123e69;
-
-        border: 3px solid #4ca3ef;
-
-        border-radius: 22px;
-
+        background: linear-gradient(145deg, #123b74 0%, #0a2553 55%, #071a3b 100%);
+        border: 3px solid #05d7f4;
+        border-radius: 18px;
         box-shadow:
-            0 10px 25px rgba(0, 0, 0, 0.35);
-
+            0 0 0 2px rgba(255, 199, 44, 0.28),
+            0 0 22px rgba(0, 214, 245, 0.38),
+            0 18px 36px rgba(0, 0, 0, 0.48),
+            inset 0 0 26px rgba(0, 181, 255, 0.09);
         opacity: 0;
-
         transform: scale(0.85);
-
-        animation:
-            popupIn 0.35s ease forwards;
-
+        animation: popupIn 0.35s ease forwards;
     }
 
+    /* Small HUD details, drawn without adding new HTML elements. */
+    .popup::before,
+    .popup::after {
+        content: "";
+        position: absolute;
+        height: 5px;
+        top: 13px;
+        pointer-events: none;
+        border-radius: 3px;
+    }
+
+    .popup::before {
+        left: 18px;
+        width: 56px;
+        background: linear-gradient(90deg, #05d7f4 0 70%, #ffc72c 70% 85%, transparent 85%);
+    }
+
+    .popup::after {
+        right: 18px;
+        width: 42px;
+        background: repeating-linear-gradient(90deg, #05d7f4 0 7px, transparent 7px 13px);
+        opacity: 0.8;
+    }
 
     @keyframes popupIn {
 
@@ -177,7 +189,9 @@
 
         padding: 0 20px;
 
-        color: white;
+        color: #ffffff;
+
+        text-shadow: 0 2px 3px rgba(0, 0, 0, 0.55), 0 0 10px rgba(0, 210, 245, 0.2);
 
         font-size: 30px;
 
@@ -202,13 +216,15 @@
 
         text-align: center;
 
-        color: #123e69;
+        color: #ffffff;
 
-        background: white;
+        background: #071e43;
 
-        border: 3px solid #4ca3ef;
+        border: 2px solid #13c9ed;
 
-        border-radius: 14px;
+        border-radius: 11px;
+
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25), 0 0 9px rgba(0, 215, 245, 0.12);
 
         outline: none;
 
@@ -221,14 +237,16 @@
 
     #nameInput::placeholder {
 
-        color: #7990a8;
+        color: #96b9d4;
 
     }
 
 
     #nameInput:focus {
 
-        border-color: #ffc928;
+        border-color: #ffc72c;
+
+        box-shadow: 0 0 12px rgba(255, 199, 44, 0.24);
 
         transform: scale(1.015);
 
@@ -249,13 +267,15 @@
 
         font-size: 22px;
 
-        color: #123e69;
+        color: #062b50;
 
-        background: #4ca3ef;
+        background: #03cce9;
 
-        border: none;
+        border: 4px solid #ffc72c;
 
         border-radius: 30px;
+
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 0 12px rgba(0, 205, 240, 0.24);
 
         cursor: pointer;
 
@@ -270,7 +290,7 @@
 
         transform: scale(1.05);
 
-        background: #ffc928;
+        background: #48e3f5;
 
     }
 
@@ -285,7 +305,7 @@
 
         margin-top: 10px;
 
-        color: #ffc928;
+        color: #ffc72c;
 
         font-size: 18px;
 
